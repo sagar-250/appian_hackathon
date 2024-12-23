@@ -11,7 +11,7 @@ llm = ChatGroq(
     max_retries=2,
 )
 def process(text:str)->str:
-    system = "You are a helpful assistant. whose work is clean up and organize given text . there might be some time the text is of a application form .. so you also need to add 'no value' .. if there is no value infront of a particular field"
+    system = "You are a helpful assistant. whose work is clean up and organize given text . dont remove file name . there might be some time the text is of a application form .. so you also need to add 'no value' .. if there is no value infront of a particular field"
     human = "{text}"
     prompt = ChatPromptTemplate.from_messages([("system", system), ("human", human)])
     system = "You are a helpful assistant."
