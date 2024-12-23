@@ -62,7 +62,7 @@ def classifier_summerizer(text):
           }
       ]
   response = client.chat.completions.create(
-        model="llama-3.1-70b-versatile",
+        model="llama-3.3-70b-specdec",
         response_model=ResponseModel,
         messages=messages,
         temperature=0.9,
