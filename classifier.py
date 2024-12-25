@@ -25,20 +25,13 @@ class ResponseModel(BaseModel):
     
 client = instructor.from_groq(Groq(), mode=instructor.Mode.JSON) 
 output_schema={
-                  "info": [
+                  "info": 
                       {
-                          "info_type": "name",
-                          "value": "[extracted name]"
+                          "name":"<value>",
+                          "email":"<value>",
+                          "ph_no.":"<value>"
+                        
                       },
-                      {
-                          "info_type": "email",
-                          "value": "[extracted email]"
-                      },
-                      {
-                          "info_type": "ph_no.",
-                          "value": "[extracted phone number]"
-                      },
-                  ],
                   "doc_type": "[type of document]",
                   "summary": "[brief summary of the document content]"
               }
