@@ -6,7 +6,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
-from typing import List
+from typing import List ,Dict
 import instructor
 import json
 from groq import Groq
@@ -15,11 +15,11 @@ import os
 # Initialize Groq client
 client = Groq()
 
-class InfoModel(BaseModel):
-  info_type: str
-  value : str 
+# class InfoModel(BaseModel):
+#   info_type: List[str]
+#   value : str 
 class ResponseModel(BaseModel):
-    info: List[InfoModel]
+    info: Dict[str,List[str]]
     doc_type: str
     summary: str 
     
@@ -33,6 +33,10 @@ output_schema={
                       {
                           "info_type": "email",
                           "value": "[extracted email]"
+                      },
+                      {
+                          "info_type": "ph_no.",
+                          "value": "[extracted phone number]"
                       },
                   ],
                   "doc_type": "[type of document]",
@@ -53,11 +57,15 @@ def classifier_summerizer(text):
                 - Don't put info which is censored like e.g XXXXXXXXXXXXXXXXXXXXX041 
                  
               2. For each piece of information found:
-                - Classify its type (e.g., "name", "email", "phone", etc.)
+                - Classify its type (e.g., "name", "email", "phone", etc.) ***there shouldnt be dulicate info type .. if there is multiple value use list***. 
+                
                 - Extract the exact value
               3. **Provide  summary of the overall document including important details suchas  values , income figures  dates etc.,statements address etc. dont miss out details**
               4. Identify the type of document among the following list : {types}
               Format your response as follows:{output_schema}
+              
+              guidelines:
+              for eg. 'info_type':'name','value':'Andrew G. Kallianos','info_type':'name','value':'Richard E. Hann' is wrong , the correct format would be( "info_type":"name","value":[Andrew G. Kallianos,Richard E. Hanna])
               """
           }
       ]
