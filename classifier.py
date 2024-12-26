@@ -28,8 +28,10 @@ output_schema={
                   "info": 
                       {
                           "name":"<value>",
+                          "mother_name":"<value>",
                           "email":"<value>",
-                          "ph_no.":"<value>"
+                          "ph_no.":"<value>",
+                          "DOB": "<value>",
                         
                       },
                   "doc_type": "[type of document]",
@@ -44,7 +46,8 @@ def classifier_summerizer(text):
               Please analyze the filename and  text : {text} 
               and extract relevant information in the following structure:
               1. Identify key pieces of person information like:
-                - if some field is not specified (for e.g. in bank application) dont include it
+                - if it has "no value " DOnt include it  in the info
+                 - if some field is not specified (for e.g. in bank application) dont include it
                 - Names - Email addresses - Identification numbers
                 - DONT PUT ANY NON PERSONAL DETAIL (OR STORE DETAIL IN RECIPT .keep store details in the summary KEY)
                 - Don't put info which is censored like e.g XXXXXXXXXXXXXXXXXXXXX041 
@@ -55,10 +58,9 @@ def classifier_summerizer(text):
                 - Extract the exact value
               3. **Provide  summary of the overall document including important details suchas  values , income figures  dates etc.,statements address etc. dont miss out details**
               4. Identify the type of document among the following list : {types}
-              Format your response as follows:{output_schema}
+              Example of output format response:{output_schema}
               
-              guidelines:
-              for eg. 'info_type':'name','value':'Andrew G. Kallianos','info_type':'name','value':'Richard E. Hann' is wrong , the correct format would be( "info_type":"name","value":[Andrew G. Kallianos,Richard E. Hanna])
+             
               """
           }
       ]
