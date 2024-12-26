@@ -11,21 +11,17 @@ import base64
 st.set_page_config(layout="wide")
 st.title("Document Processing App")
 
-# Define allowed file types
 ALLOWED_TYPES = ["pdf", "png", "jpg", "jpeg", "bmp", "tiff", "webp"]
 
 def display_pdf(file):
-    # Read PDF file
     try:
         base64_pdf = base64.b64encode(file.read()).decode('utf-8')
-        # Embed PDF viewer
         pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
         st.markdown(pdf_display, unsafe_allow_html=True)
-        file.seek(0)  # Reset file pointer
+        file.seek(0)  
     except Exception as e:
         st.error(f"Error displaying PDF: {str(e)}")
 
-# File uploader with multiple file types
 uploaded_file = st.file_uploader(
     "Upload your document", 
     type=ALLOWED_TYPES,
@@ -33,7 +29,6 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file is not None:
-    # Create tabs for organization
     file_tab, results_tab = st.tabs(["📄 File Preview", "📊 Analysis Results"])
     
     with file_tab:
@@ -41,7 +36,6 @@ if uploaded_file is not None:
         
         with col1:
             st.write("### File Details")
-            # Create a DataFrame for file details
             file_details = pd.DataFrame({
                 "Property": ["Filename", "File size (KB)", "File type"],
                 "Value": [
@@ -59,7 +53,7 @@ if uploaded_file is not None:
                     image_bytes = uploaded_file.read()
                     image = Image.open(io.BytesIO(image_bytes))
                     st.image(image, caption=uploaded_file.name)
-                    uploaded_file.seek(0)  # Reset file pointer
+                    uploaded_file.seek(0)  
                 elif uploaded_file.type == "application/pdf":
                     display_pdf(uploaded_file)
             except Exception as e:
@@ -69,19 +63,16 @@ if uploaded_file is not None:
         st.write("### Processing document...")
         
         try:
-            # Reset file pointer before sending
             uploaded_file.seek(0)
-            
-            # Create the files dictionary for the request
             files = {
                 "file": (
                     uploaded_file.name,
-                    uploaded_file.read(),  # Read file content
+                    uploaded_file.read(),  
                     uploaded_file.type or "application/octet-stream"
                 )
             }
             
-            # Send the file to the FastAPI endpoint
+            
             response = requests.post(
                 "http://localhost:8000/process-document/",
                 files=files
@@ -90,7 +81,7 @@ if uploaded_file is not None:
             if response.status_code == 200:
                 result = response.json()
                 
-                # Create columns for different types of information
+               
                 col1, col2 = st.columns([1, 1])
                 
                 with col1:
@@ -102,7 +93,7 @@ if uploaded_file is not None:
                 
                 with col2:
                     st.write("### Extracted Information")
-                    # Convert the info dictionary to a DataFrame
+          
                     info_data = []
                     for key, values in result["info"].items():
                         info_data.append({
@@ -112,7 +103,7 @@ if uploaded_file is not None:
                     info_df = pd.DataFrame(info_data)
                     st.dataframe(info_df, hide_index=True)
                 
-                # Show raw JSON with option to expand
+           
                 with st.expander("View Raw JSON Response"):
                     st.json(result)
                 
@@ -126,10 +117,10 @@ if uploaded_file is not None:
             st.error(f"⚠️ An error occurred: {str(e)}")
             
         finally:
-            # Reset file pointer after processing
+         
             uploaded_file.seek(0)
 
-# Add some helpful information at the bottom
+
 st.markdown("""
 ---
 ### Notes:
