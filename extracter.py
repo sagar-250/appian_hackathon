@@ -1,9 +1,10 @@
 import fitz  # PyMuPDF
 import base64
+import os
 from ocr import image_to_text
 
 def extract_text_and_images_info(input_path):
-    file_name = input_path.split('/')[-1]  # Extract the file name from the path
+    file_name = os.path.basename(input_path).split('/')[-1]
     if input_path.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.webp')):
         with open(input_path, "rb") as image_file:
             image_bytes = image_file.read()
