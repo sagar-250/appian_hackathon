@@ -14,7 +14,7 @@ from pathlib import Path
 
 app = FastAPI(title="Document Processing API")
 
-# Define allowed file types
+
 ALLOWED_MIMETYPES = {
     'application/pdf',
     'image/png',
@@ -47,18 +47,17 @@ async def process_document(file: UploadFile = File(...)):
             detail=f"Invalid file type. Allowed types are: PDF and common image formats"
         )
     
-    # Create a temporary directory
+    
     with tempfile.TemporaryDirectory() as temp_dir:
-        # Sanitize and preserve original filename
         safe_filename = sanitize_filename(file.filename)
         temp_file_path = os.path.join(temp_dir, safe_filename)
         
         try:
-            # Save the file with its original name in the temporary directory
+         
             with open(temp_file_path, 'wb') as temp_file:
                 shutil.copyfileobj(file.file, temp_file)
             
-            # Process the document
+           
             extracted_text = extract_text_and_images_info(temp_file_path)
             cleaned_text = process(extracted_text)
             result = classifier_summerizer(cleaned_text)
@@ -72,7 +71,7 @@ async def process_document(file: UploadFile = File(...)):
             )
         
         finally:
-            # The temporary directory and its contents will be automatically cleaned up
+            
             file.file.close()
 
 @app.get("/supported-formats/")
