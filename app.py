@@ -60,6 +60,8 @@ async def process_document(file: UploadFile = File(...)):
             
             # Process the document
             extracted_text = extract_text_and_images_info(temp_file_path)
+            if "Poor quality of image" in extracted_text:
+                return{"info":{},"doc_type":"QUALITY ISSUE IN DOC!!","summary":extracted_text}
             cleaned_text = process(extracted_text)
             result = classifier_summerizer(cleaned_text)
             print(result)

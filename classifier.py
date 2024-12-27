@@ -7,6 +7,7 @@ from langchain.chains import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
 from typing import List ,Dict
+import requests
 import instructor
 import json
 from groq import Groq
@@ -65,7 +66,7 @@ def classifier_summerizer(text):
           }
       ]
   response = client.chat.completions.create(
-        model="llama-3.3-70b-specdec",
+        model="llama-3.3-70b-versatile",
         response_model=ResponseModel,
         messages=messages,
         temperature=0.9,

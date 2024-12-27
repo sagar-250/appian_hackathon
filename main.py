@@ -101,7 +101,7 @@ if uploaded_file is not None:
                     st.write(result["summary"])
                 
                 with col2:
-                    st.write("### Extracted Information")
+                    st.write("### Extracted Personal Information")
                     # Convert the info dictionary to a DataFrame
                     info_data = []
                     for key, values in result["info"].items():
