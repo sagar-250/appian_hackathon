@@ -27,6 +27,9 @@ This project is an easy-to-use document verification tool designed to process an
 5. **Classification ,Summarization & Extraction**
    - The cleaned data is processed by a **classifier** that categorizes the document and generates a summary of the key points and information and extracts personal info.
 
+6. **Document Verification**
+   - We are currently working on the implementation of this in our pipeline our purposed Model pipeline for verification is as belw
+   ![image](https://github.com/user-attachments/assets/a3b7c315-14d9-4a1e-9f5c-e4904adf9598)
 
 Our goal is to extend the capabilities of this tool to perform document verification and authentication as well.This would ensure that all documents uploaded to the system are not only processed for quality and categorization but are also confirmed to be legitimate. By incorporating these additional capabilities, the tool will provide a more robust solution for managing and validating documents effectively
 
