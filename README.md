@@ -6,6 +6,38 @@ This project uses [Groq](https://groq.com/) (LLM and VLM) and [Sightengine](http
 
 This project is an easy-to-use document verification tool designed to process and analyze uploaded documents. The tool supports both image and PDF files, evaluating their quality, extracting context, cleaning the data, and generating classifications and summaries.
 
+
+---
+
+## Setup Instructions
+
+1. Add the following keys to your ```.env``` file:
+
+   ```
+   GROQ_API_KEY=<your_groq_api_key>
+   API_USER=<your_api_user>
+   API_SECRET=<your_api_secret>
+   ```
+   
+
+2. Run the backend server by executing:
+
+   ```
+   python app.py
+   ```
+   
+
+   This will start the model endpoint.
+
+3. Launch the Streamlit app using the following command:
+
+   ```
+   streamlit run main.py
+   ```
+   
+
+---
+
 ## Working Architecture
 
 1. **Document Upload**
@@ -36,34 +68,6 @@ Our goal is to extend the capabilities of this tool to perform document verifica
 
 ---
 
-## Setup Instructions
-
-1. Add the following keys to your ```.env``` file:
-
-   ```
-   GROQ_API_KEY=<your_groq_api_key>
-   API_USER=<your_api_user>
-   API_SECRET=<your_api_secret>
-   ```
-   
-
-3. Run the backend server by executing:
-
-   ```
-   python app.py
-   ```
-   
-
-   This will start the model endpoint.
-
-5. Launch the Streamlit app using the following command:
-
-   ```
-   streamlit run main.py
-   ```
-   
-
----
 
 ## User Interface
 
