@@ -27,15 +27,6 @@ This project is an easy-to-use document verification tool designed to process an
 5. **Classification & Summarization**
    - The cleaned data is processed by a **classifier** that categorizes the document and generates a summary of the key points and information.
 
-## Installation
-
-To set up the project locally, follow these steps:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/document-verification-tool.git
-   cd document-verification-tool
-
 
 Our goal is to extend the capabilities of this tool to perform document verification and authentication as well.This would ensure that all documents uploaded to the system are not only processed for quality and categorization but are also confirmed to be legitimate. By incorporating these additional capabilities, the tool will provide a more robust solution for managing and validating documents effectively
 
