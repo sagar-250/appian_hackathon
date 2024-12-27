@@ -24,8 +24,8 @@ This project is an easy-to-use document verification tool designed to process an
 4. **Data Cleaning**
    - The extracted context is then sent through a **data processor** that cleans the content, removing unnecessary information and ensuring accuracy.
 
-5. **Classification & Summarization**
-   - The cleaned data is processed by a **classifier** that categorizes the document and generates a summary of the key points and information.
+5. **Classification ,Summarization & Extraction**
+   - The cleaned data is processed by a **classifier** that categorizes the document and generates a summary of the key points and information and extracts personal info.
 
 
 Our goal is to extend the capabilities of this tool to perform document verification and authentication as well.This would ensure that all documents uploaded to the system are not only processed for quality and categorization but are also confirmed to be legitimate. By incorporating these additional capabilities, the tool will provide a more robust solution for managing and validating documents effectively
