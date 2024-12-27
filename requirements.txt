@@ -1,0 +1,13 @@
+fastapi
+pydantic
+uvicorn
+streamlit
+requests
+pandas
+pillow
+PyMuPDF
+PyPDF2
+python-dotenv
+langchain-groq
+langchain-core
+groq
