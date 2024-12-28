@@ -15,6 +15,7 @@ This project is an easy-to-use document verification tool designed to process an
 
    ```
    GROQ_API_KEY=<your_groq_api_key>
+   # Sightengine
    API_USER=<your_api_user>
    API_SECRET=<your_api_secret>
    ```
