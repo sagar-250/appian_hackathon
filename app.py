@@ -2,8 +2,12 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import uvicorn
+from database_utils import upload_to_database
+from cross_validator import cross_validate
+import cross_validator
 from extracter import extract_text_and_images_info
 from classifier import classifier_summerizer
+import classifier
 from process_text import process
 import tempfile
 import json
@@ -24,7 +28,7 @@ ALLOWED_MIMETYPES = {
     'image/webp'
 }
 
-class DocumentResponse(BaseModel):
+class ResponseModel(BaseModel):
     info: Dict[str, list]
     doc_type: str
     summary: str
@@ -37,7 +41,7 @@ def sanitize_filename(filename: str) -> str:
     """Sanitize the filename to prevent directory traversal attacks."""
     return os.path.basename(filename)
 
-@app.post("/process-document/", response_model=DocumentResponse)
+@app.post("/process-document/", response_model=ResponseModel)
 async def process_document(file: UploadFile = File(...)):
     # Check file type
     content_type = file.content_type or mimetypes.guess_type(file.filename)[0]
@@ -60,11 +64,15 @@ async def process_document(file: UploadFile = File(...)):
            
             extracted_text = extract_text_and_images_info(temp_file_path)
             if "Poor quality of image" in extracted_text:
-                return{"info":{},"doc_type":"QUALITY ISSUE IN DOC!!","summary":extracted_text}
+                raise Exception(extracted_text)
             cleaned_text = process(extracted_text)
-            result = classifier_summerizer(cleaned_text)
-            print(result)
-            return json.loads(result)
+            extracted_data = classifier_summerizer(cleaned_text)
+            verification = cross_validate(extracted_data)
+            if isinstance(verification, classifier.ResponseModel):
+                upload_to_database(verification)
+                return json.loads(verification.json())
+            else:
+                raise ValueError(verification.json())
 
         except Exception as e:
             raise HTTPException(

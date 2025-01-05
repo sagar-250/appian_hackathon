@@ -33,6 +33,7 @@ output_schema={
                           "email":"<value>",
                           "ph_no.":"<value>",
                           "DOB": "<value>",
+                          "Aadhar": "<value>"
                         
                       },
                   "doc_type": "[type of document]",
@@ -54,7 +55,8 @@ def classifier_summerizer(text):
                 - Don't put info which is censored like e.g XXXXXXXXXXXXXXXXXXXXX041 
                  
               2. For each piece of information found:
-                - Classify its type (e.g., "name", "email", "phone", etc.) ***there shouldnt be dulicate info type .. if there is multiple value use list***. 
+                - Classify its type (e.g., "name", "email", "phone", etc.) ***there shouldnt be dulicate info type .. if there is multiple value use list***.
+                NOTE: unique identifier like name ,age gender,DOB should always have single value 
                 
                 - Extract the exact value
               3. **Provide  summary of the overall document including important details suchas  values , income figures  dates etc.,statements address etc. dont miss out details**
@@ -73,6 +75,6 @@ def classifier_summerizer(text):
         max_tokens=1000,
     )
 
-  return response.json()
+  return response
 
 
