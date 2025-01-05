@@ -108,7 +108,7 @@ if uploaded_file is not None:
                     st.json(result)
                 
             else:
-                st.error(f"Error processing document: {response.status_code}")
+                st.error(f"{response.detail}: {response.status_code}")
                 st.write(response.text)
                 
         except requests.exceptions.ConnectionError:

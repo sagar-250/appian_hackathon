@@ -33,7 +33,7 @@ output_schema={
                           "email":"<value>",
                           "ph_no.":"<value>",
                           "DOB": "<value>",
-                          "Aadhar": "<value>"
+                          "Aadhaar": "<value>"
                         
                       },
                   "doc_type": "[type of document]",

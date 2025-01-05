@@ -23,6 +23,9 @@ client = instructor.from_groq(Groq(), mode=instructor.Mode.JSON)
 
 def cross_validate(response_data: ResponseModel) -> bool:
     response_info = response_data.info
+    name = response_info.get("name","")
+    if name == "":
+        return response_data
     db_data=retrieve_documents_by_name(response_info["name"])
     if not db_data:
         print("No data found in the database.")
@@ -32,10 +35,17 @@ def cross_validate(response_data: ResponseModel) -> bool:
           {
               "role": "system",
               "content" : """You are a helpful assistant who helps in cross verification of user data from exsisting database records
-              
               if the personal information given in reponse data matches with pre exsisting database record then it verified  
               
-              dont check missing field just cross verify diffrent field of response data from diffrent chunks of database records"""},
+              dont check missing field ,or exact key string match just cross verify diffrent field value of response data from diffrent chunks of database records
+              
+              also tell the diifrent value which lead to false evaluation
+              
+              output :
+              {
+                  reason: the reason for the evaluation alomg with appropiate information and values
+                  eval: true/false
+                  }"""},
           {
               "role": "user",
               "content":f"Response Data: {response_info}\nDatabase Record: {db_data}"
@@ -59,7 +69,7 @@ def cross_validate(response_data: ResponseModel) -> bool:
     
 
 response_data = ResponseModel(
-    info={"name": ["Sagar Bag"], "age": ["20"], "city": ["Mumbai"]},
+    info={ "age": ["20"], "city": ["Mumbai"]},
     doc_type="application",
     summary="Summary of Sagar's application"
 )
@@ -69,4 +79,3 @@ db_data = [
     {"info": {"name": ["Sagar"], "age": ["20"], "city": ["Mumbai"]}, "doc_type": "Recipt", "summary": "reciept of sagar"}
 ]
 
-# cross_validate(response_data)

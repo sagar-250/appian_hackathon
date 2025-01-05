@@ -74,10 +74,15 @@ async def process_document(file: UploadFile = File(...)):
             else:
                 raise ValueError(verification.json())
 
+        except ValueError as ve:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Cross verification failed: {str(ve)}"
+            )
         except Exception as e:
             raise HTTPException(
                 status_code=500,
-                detail=f"Error processing document: {str(e)}"
+                detail=f"Quality issue: {str(e)}"
             )
         
         finally:
