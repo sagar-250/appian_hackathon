@@ -119,9 +119,11 @@ if uploaded_file is not None:
                         if "Cross verification failed:" in detail:
                             json_string = detail.split("Cross verification failed:")[1].strip()
                             parsed_json = json.loads(json_string)
-                            parsed_json["error type"]="Cross verification failed"
+                            error_json={}
+                            error_json["error type"]="Cross verification failed"
+                            error_json.update(parsed_json)
                             
-                            df = pd.DataFrame([parsed_json])
+                            df = pd.DataFrame([error_json])
                         else:
                             df = pd.DataFrame([response_data])
                     else:
