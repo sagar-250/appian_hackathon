@@ -15,6 +15,7 @@ import os
 import mimetypes
 import shutil
 from pathlib import Path
+from adhaar_verification import visual_verification,Validate_aadhaar_num
 
 app = FastAPI(title="Document Processing API")
 
@@ -69,8 +70,20 @@ async def process_document(file: UploadFile = File(...)):
             extracted_data = classifier_summerizer(cleaned_text)
             verification = cross_validate(extracted_data)
             if isinstance(verification, classifier.ResponseModel):
-                upload_to_database(verification)
-                return json.loads(verification.json())
+                print("cross verification done")
+                if "Aadhaar" in verification.info.keys():
+                    visual_eval=visual_verification(temp_file_path)
+                    # number_eval=Validate_aadhaar_num(verification.info["Aadhaar"])
+                    # if visual_eval and number_eval         
+                    if visual_eval:        
+                        upload_to_database(verification)
+                        print("visual verification done")
+                        return json.loads(verification.json())
+                    else:
+                        raise ValueError("Verification failed in visual and number algorithm check of Aadhaar")
+                else:
+                    upload_to_database(verification)
+                    return json.loads(verification.json())
             else:
                 raise ValueError(verification.json())
 
