@@ -33,19 +33,20 @@ def cross_validate(response_data: ResponseModel) -> bool:
     print(db_data)
     messages = [
           {
-              "role": "system",
-              "content" : """You are a helpful assistant who helps in cross verification of user data from exsisting database records
-              if the personal information given in reponse data matches with pre exsisting database record then it verified  
-              
-              dont check missing field ,or exact key string match just cross verify diffrent field value of response data from diffrent chunks of database records
-              
-              also tell the diifrent value which lead to false evaluation
-              
-              output :
-              {
-                  reason: the reason for the evaluation alomg with appropiate information and values
-                  eval: true/false
-                  }"""},
+            "role": "system",
+            "content": """You are a helpful assistant who helps in cross-verification of user data from existing database records.
+            If the personal information given in the response data matches with the pre-existing database records, then it is verified.
+
+            - Consider equivalent values that have case differences (e.g., "MALE" and "male") or minor semantic variations (e.g., "Yes" and "yes") as matching.
+            - Do not check for missing fields or exact key string matches; focus only on the cross-verification of different field values between the response data and the database records.
+            - Also, identify and explain any significant differences in values that lead to a false evaluation.
+
+            Output:
+            {
+                reason: "The reason for the evaluation, along with appropriate information and values."
+                eval: true/false
+            }"""
+            },
           {
               "role": "user",
               "content":f"Response Data: {response_info}\nDatabase Record: {db_data}"

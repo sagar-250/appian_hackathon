@@ -108,8 +108,30 @@ if uploaded_file is not None:
                     st.json(result)
                 
             else:
-                st.error(f"{response.detail}: {response.status_code}")
-                st.write(response.text)
+                st.error(f"Error: {response.status_code}")
+                try:
+                    response_data = json.loads(response.text)
+                    if isinstance(response_data, list):
+                        df = pd.DataFrame(response_data)
+                    elif isinstance(response_data, dict):
+                        # import pdb;pdb.set_trace()
+                        detail=response_data['detail']
+                        if "Cross verification failed:" in detail:
+                            json_string = detail.split("Cross verification failed:")[1].strip()
+                            parsed_json = json.loads(json_string)
+                            parsed_json["error type"]="Cross verification failed"
+                            
+                            df = pd.DataFrame([parsed_json])
+                        else:
+                            df = pd.DataFrame([response_data])
+                    else:
+                        raise ValueError("Unsupported JSON format")
+                    st.write("Error Info:")
+                    st.table(df)
+                except json.JSONDecodeError:
+                    st.write(response.text)
+                except Exception as e:
+                    st.write(f"An error occurred while processing the response: {str(e)}")
                 
         except requests.exceptions.ConnectionError:
             st.error("⚠️ Failed to connect to the API server. Make sure the FastAPI server is running on http://localhost:8000")

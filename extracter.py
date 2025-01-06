@@ -19,7 +19,7 @@ def extract_text_and_images_info(input_path):
             r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
             output = json.loads(r.text)
             
-            if output['quality']['score'] < 0.26:
+            if output['quality']['score'] < 0.3:
                 print("Poor quality of image")
                 return "Poor quality of image"
             else:
